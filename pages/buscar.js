@@ -1,25 +1,19 @@
 import React from 'react'
-import Head from 'next/head'
 import { Grid, Button } from '@mui/material'
 import Main from '../components/layouts/main'
 
-export default function Home() {
+export default function Buscar() {
 	return (
 		<Main>
-			<Head>
-				<title>Rick & Morty React App</title>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
-
 			<Grid container spacing={0}>
 				<Grid className="baner" item xs={12} md={12}>
 					<img
 						src="/logo.png"
 						alt="Rick y Morty"
 						height="300px"
-					></img><br/>
-					<h1>Bienvenido a Rick y Morty</h1>
-					<Button color="secondary" variant="contained" href="/buscar">Continuar</Button>
+					></img><br />
+					<h1>Buscando</h1>
+					<Button color="secondary" variant="contained" href="/">Inicio</Button>
 				</Grid>
 			</Grid>
 
