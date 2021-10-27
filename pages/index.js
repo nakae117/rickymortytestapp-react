@@ -12,7 +12,7 @@ export default function Home() {
 			</Head>
 
 			<Grid container spacing={0}>
-				<Grid className="baner" item xs={12} md={12}>
+				<Grid className="banner" item xs={12} md={12}>
 					<img
 						src="/logo.png"
 						alt="Rick y Morty"
@@ -24,13 +24,13 @@ export default function Home() {
 			</Grid>
 
 			<style jsx global>{`
-				.baner {
+				.banner {
 					background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('/bg.png');
 					backdrop-filter: brightness(50%);
 					height: 100vh;
 					text-align: center;
 				}
-				body{
+				body {
 					margin: 0px;
 				}
 				h1 {
