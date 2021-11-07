@@ -1,18 +1,31 @@
-import React from 'react'
-import { Grid, TextField, Paper, FormControl, Select, MenuItem, InputLabel, Box, AppBar, Toolbar, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Grid, TextField, Paper, FormControl, Select, MenuItem, InputLabel, Box, AppBar, Toolbar, Typography, Container } from '@mui/material'
 import { Search } from '@mui/icons-material'
 import Main from '../components/layouts/main'
+import FichaPersonaje from '../components/fichaPersonaje'
+import { createStore } from 'redux'
+import personajes from '../reducers/personajes'
+
+const store = createStore(personajes);
 
 export default function Buscar() {
-	const [status, setStatus] = React.useState('');
-	const [gender, setGender] = React.useState('');
+	useEffect(() => {
+		buscar()
+	});
+
+	const [status, setStatus] = useState('');
+	const [gender, setGender] = useState('');
 
 	const changeStatus = (event) => {
-		setStatus(event.target.value);
+		setStatus(event.target.value)
 	};
 
 	const changeGender = (event) => {
-		setGender(event.target.value);
+		setGender(event.target.value)
+	};
+
+	const buscar = () => {
+		store.dispatch({ type: 'OBTENER_PERSONAJES' })
 	};
 
 	return (
@@ -102,6 +115,18 @@ export default function Buscar() {
 						</Toolbar>
 					</AppBar>
 				</Box>
+
+				<Container className="personajes-container">
+					<Grid container spacing={3}>
+						<Grid item xs={12} md={12}>
+							<Grid container spacing={3}>
+								<Grid item xs={12} md={4}>
+									<FichaPersonaje></FichaPersonaje>
+								</Grid>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Container>
 			</Main>
 
 			<style jsx>{`
@@ -110,9 +135,16 @@ export default function Buscar() {
 					background-position: center;
 					height: 400px;
 				}
+
 				.main-root :global(.logo) {
 					text-align: center;
 				}
+
+				.main-root :global(.personajes-container) {
+					margin-top: 25px;
+					margin-bottom: 25px;
+				}
+
 				h1 {
 					color: #fff;
 				}

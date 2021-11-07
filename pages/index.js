@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { Grid, Button } from '@mui/material'
 import Main from '../components/layouts/main'
 
@@ -18,8 +19,16 @@ export default function Home() {
 						alt="Rick y Morty"
 						height="300px"
 					></img><br/>
+					
 					<h1>Bienvenido a Rick y Morty</h1>
-					<Button color="secondary" variant="contained" href="/buscar">Continuar</Button>
+
+					<Link href="/buscar">
+						<Button color="secondary" variant="contained">Continuar</Button>
+					</Link>
+
+					<Link href="/redux-prueba">
+						<Button color="secondary" variant="contained">Redux prueba</Button>
+					</Link>
 				</Grid>
 			</Grid>
 
