@@ -4,7 +4,7 @@ import { Grid, Box, AppBar, Toolbar, Typography, Container, Button } from '@mui/
 import Main from '../components/layouts/main'
 
 import { createStore } from 'redux'
-import counter from '../reducers'
+import counter from '../reducers/counter'
 
 const store = createStore(counter);
 

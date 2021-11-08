@@ -3,8 +3,16 @@ import { Grid, TextField, Paper, FormControl, Select, MenuItem, InputLabel, Box,
 import { Search } from '@mui/icons-material'
 import Main from '../components/layouts/main'
 import FichaPersonaje from '../components/fichaPersonaje'
-import axios from 'axios'
+import { createStore, applyMiddleware } from 'redux'
+// import personajes from '../reducers/personajes'
+import reducers from '../reducers'
+import thunk from 'redux-thunk'
 
+// console.log(personajes)
+
+// const store = createStore(personajes);
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const store = createStoreWithMiddleware(reducers);
 
 export default function Buscar() {
 	useEffect(() => {
@@ -13,8 +21,6 @@ export default function Buscar() {
 
 	const [status, setStatus] = useState('');
 	const [gender, setGender] = useState('');
-	const [personajes, setPersonajes] = useState([]);
-	const [info, setInfo] = useState([]);
 
 	const changeStatus = (event) => {
 		setStatus(event.target.value)
@@ -25,24 +31,8 @@ export default function Buscar() {
 	};
 
 	const buscar = () => {
-		return new Promise((resolve, reject) => {
-			axios.get('https://rickandmortyapi.com/api/character/')
-				.then((response) => {
-					setInfo(response.data.info)
-					setPersonajes(response.data.results)
-				})
-		})
+		store.dispatch({ type: 'OBTENER_PERSONAJES' })
 	};
-
-	const renderPersonajesList = () => {
-		return personajes.map((personaje) => {
-			return (
-				<Grid item xs={12} md={4} key={personaje.id}>
-					<FichaPersonaje personaje={personaje}></FichaPersonaje>
-				</Grid>
-			)
-		})
-	}
 
 	return (
 		<div className="main-root">
@@ -136,7 +126,9 @@ export default function Buscar() {
 					<Grid container spacing={3}>
 						<Grid item xs={12} md={12}>
 							<Grid container spacing={3}>
-								{ renderPersonajesList() }
+								<Grid item xs={12} md={4}>
+									<FichaPersonaje></FichaPersonaje>
+								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>

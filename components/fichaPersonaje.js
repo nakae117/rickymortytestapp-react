@@ -9,7 +9,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
-export default function FichaPersonaje() {
+export default function FichaPersonaje(props) {
 	const theme = useTheme();
 
 	return (
@@ -18,27 +18,27 @@ export default function FichaPersonaje() {
 				<CardMedia
 					component="img"
 					sx={{ width: 151 }}
-					image="/cover.jpg"
+					image={props.personaje.image}
 					alt="Live from space album cover"
 				/>
 				<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 					<CardContent sx={{ flex: '1 0 auto' }}>
 						<Typography variant="subtitle2" color="text.secondary" component="div">
-							Mac Miller
+							{props.personaje.status} - {props.personaje.species}
 						</Typography>
 
 						<Typography component="div" variant="h6">
-							Live From Space
+							{props.personaje.name}
 						</Typography>
 					</CardContent>
 
 					<CardContent sx={{ flex: '1 0 auto' }}>
 						<Typography variant="subtitle2" color="text.secondary" component="div">
-							Mac Miller
+							Location
 						</Typography>
 
 						<Typography component="div" variant="h6">
-							Live From Space
+							{props.personaje.location.name}
 						</Typography>
 					</CardContent>
 				</Box>

@@ -4,7 +4,7 @@ const initialState = {
 	list: []
 }
 
-export default (state = initialState, action) => {
+export function obtenerPersonajes(state = initialState, action){
 	switch (action.type) {
 		case OBTENER_PERSONAJES:
 			return Object.assign({}, state, { list: action.payload })
