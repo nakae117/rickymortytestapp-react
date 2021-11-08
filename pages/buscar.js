@@ -1,38 +1,78 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, TextField, Paper, FormControl, Select, MenuItem, InputLabel, Box, AppBar, Toolbar, Typography, Container } from '@mui/material'
+import { Grid, TextField, Paper, FormControl, Select, MenuItem, InputLabel, Box, AppBar, Toolbar, Typography, Container, IconButton } from '@mui/material'
 import { Search } from '@mui/icons-material'
 import Main from '../components/layouts/main'
 import FichaPersonaje from '../components/fichaPersonaje'
 import axios from 'axios'
-
+import { useRouter } from 'next/router'
 
 export default function Buscar() {
-	useEffect(() => {
-		buscar()
-	});
-
+	const router = useRouter();
+	const [search, setSearch] = useState('');
 	const [status, setStatus] = useState('');
 	const [gender, setGender] = useState('');
+	const [page, setPage] = useState('');
+	const [loading, setLoading] = useState(true);
 	const [personajes, setPersonajes] = useState([]);
-	const [info, setInfo] = useState([]);
+	const [info, setInfo] = useState({});
+	let time;
 
-	const changeStatus = (event) => {
+	const changeSearch = function(event){
+		setSearch(event.target.value)
+	}
+
+	const changeStatus = function(event){
 		setStatus(event.target.value)
-	};
+	}
 
-	const changeGender = (event) => {
+	const changeGender = function(event){
 		setGender(event.target.value)
-	};
+	}
 
-	const buscar = () => {
+	const buttonSearch = function(){
+		changeQuery()
+
+		if(page == 1){
+			if (!loading) buscar();
+		} else {
+			setPage(1)
+		}
+	}
+
+	const changeQuery = function(){
+		router.push({
+			pathname: '/buscar',
+			query: {
+				search: search,
+				status: status,
+				gender: gender,
+			},
+		})
+	}
+
+	const buscar = function(){
+		setLoading(true)
+		setPersonajes([])
+
+		let consulta = {
+			page: page,
+			name: search,
+			status: status,
+			gender: gender
+		}
+
 		return new Promise((resolve, reject) => {
-			axios.get('https://rickandmortyapi.com/api/character/')
+			axios.get('https://rickandmortyapi.com/api/character/', { params: consulta })
 				.then((response) => {
 					setInfo(response.data.info)
 					setPersonajes(response.data.results)
+					setLoading(false)
+				}).catch(() => {
+					setPersonajes([])
+					setLoading(false)
 				})
 		})
-	};
+	}
 
 	const renderPersonajesList = () => {
 		return personajes.map((personaje) => {
@@ -43,6 +83,39 @@ export default function Buscar() {
 			)
 		})
 	}
+
+	useEffect(() => {
+		if(!router.isReady) return;
+
+		if(router.query.search){
+			setSearch(router.query.search)
+		}
+
+		if(router.query.status){
+			setStatus(router.query.status)
+		}
+
+		if(router.query.gender){
+			setGender(router.query.gender)
+		}
+	}, [router.isReady]);
+
+	useEffect(() => {
+		changeQuery()
+		if(page == 1){
+			if(!loading) buscar();
+		} else {
+			setPage(1)
+		}
+	}, [status, gender]);
+
+	useEffect(() => {
+		if(!loading) buscar();
+	}, [page]);
+
+	useEffect(() => {
+		buscar()
+	}, []);
 
 	return (
 		<div className="main-root">
@@ -65,8 +138,12 @@ export default function Buscar() {
 										id="outlined-size-small"
 										size="small"
 										fullWidth
+										onChange={changeSearch}
+										value={search}
 										InputProps={{
-											endAdornment: <Search />
+											endAdornment: <IconButton onClick={buttonSearch} edge="end">
+												<Search />
+											</IconButton>
 										}}
 									/>
 								</Paper>
