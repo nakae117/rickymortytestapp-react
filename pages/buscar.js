@@ -1,5 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, TextField, Paper, FormControl, Select, MenuItem, InputLabel, Box, AppBar, Toolbar, Typography, Container, IconButton } from '@mui/material'
+import {
+	Grid,
+	TextField,
+	Paper,
+	FormControl,
+	Select, MenuItem,
+	InputLabel,
+	Box,
+	AppBar,
+	Toolbar,
+	Typography,
+	Container,
+	IconButton,
+	Pagination,
+	Stack,
+	Backdrop,
+	CircularProgress
+} from '@mui/material'
 import { Search } from '@mui/icons-material'
 import Main from '../components/layouts/main'
 import FichaPersonaje from '../components/fichaPersonaje'
@@ -43,12 +60,17 @@ export default function Buscar() {
 		router.push({
 			pathname: '/buscar',
 			query: {
+				page: page,
 				search: search,
 				status: status,
 				gender: gender,
 			},
 		})
 	}
+
+	const changePage = (event, value) => {
+		setPage(value);
+	};
 
 	const buscar = function(){
 		setLoading(true)
@@ -87,6 +109,10 @@ export default function Buscar() {
 	useEffect(() => {
 		if(!router.isReady) return;
 
+		if(router.query.page){
+			setPage(router.query.page)
+		}
+
 		if(router.query.search){
 			setSearch(router.query.search)
 		}
@@ -110,6 +136,7 @@ export default function Buscar() {
 	}, [status, gender]);
 
 	useEffect(() => {
+		changeQuery()
 		if(!loading) buscar();
 	}, [page]);
 
@@ -218,6 +245,22 @@ export default function Buscar() {
 						</Grid>
 					</Grid>
 				</Container>
+
+				<Container>
+					<Grid container spacing={3}>
+						<Grid item xs={12} md={12} className="paginado-personaje">
+							<Stack spacing={2}>
+								<Pagination count={info.pages} page={page} onChange={changePage} size="large" color="primary" />
+							</Stack>
+						</Grid>
+					</Grid>
+				</Container>
+				<Backdrop
+					sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+					open={loading}
+				>
+					<CircularProgress color="inherit" />
+				</Backdrop>
 			</Main>
 
 			<style jsx>{`
@@ -234,6 +277,11 @@ export default function Buscar() {
 				.main-root :global(.personajes-container) {
 					margin-top: 25px;
 					margin-bottom: 25px;
+				}
+
+				.main-root :global(.paginado-personaje) {
+					text-align: center;
+					padding: 16px 0;
 				}
 
 				h1 {
