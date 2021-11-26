@@ -20,6 +20,7 @@ import {
 import { Search } from '@mui/icons-material'
 import Main from '../components/layouts/main'
 import FichaPersonaje from '../components/fichaPersonaje'
+import Personaje from '../components/Personaje'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
@@ -28,10 +29,12 @@ export default function Buscar() {
 	const [search, setSearch] = useState('');
 	const [status, setStatus] = useState('');
 	const [gender, setGender] = useState('');
-	const [page, setPage] = useState('');
+	const [page, setPage] = useState(1);
 	const [loading, setLoading] = useState(true);
 	const [personajes, setPersonajes] = useState([]);
+	const [personaje, setPersonaje] = useState({});
 	const [info, setInfo] = useState({});
+	const [modalPersonaje, setDialogPersonaje] = useState(false);
 	let time;
 
 	const changeSearch = function(event){
@@ -57,14 +60,27 @@ export default function Buscar() {
 	}
 
 	const changeQuery = function(){
+		let query = {};
+
+		if(page){
+			query.page = parseInt(page)
+		}
+
+		if(search){
+			query.search = search
+		}
+
+		if(status){
+			query.status = status
+		}
+
+		if(gender){
+			query.gender = gender
+		}
+
 		router.push({
 			pathname: '/buscar',
-			query: {
-				page: page,
-				search: search,
-				status: status,
-				gender: gender,
-			},
+			query: query
 		})
 	}
 
@@ -96,11 +112,31 @@ export default function Buscar() {
 		})
 	}
 
+	const openFichaPersonaje = function(personaje_id){
+		setLoading(true)
+
+		return new Promise((resolve, reject) => {
+			axios.get('https://rickandmortyapi.com/api/character/' + personaje_id)
+				.then((response) => {
+					setPersonaje(response.data)
+					setLoading(false)
+					setDialogPersonaje(true)
+				}).catch((error) => {
+					setPersonaje({})
+					setLoading(false)
+				})
+		})
+	}
+
+	const closeFichaPersonaje = function(){
+		setDialogPersonaje(false)
+	}
+
 	const renderPersonajesList = () => {
 		return personajes.map((personaje) => {
 			return (
-				<Grid item xs={12} md={4} key={personaje.id}>
-					<FichaPersonaje personaje={personaje}></FichaPersonaje>
+				<Grid item xs={12} md={4} key={'personaje-' + personaje.id}>
+					<FichaPersonaje personaje={personaje} onSelectPersonaje={openFichaPersonaje}></FichaPersonaje>
 				</Grid>
 			)
 		})
@@ -250,7 +286,7 @@ export default function Buscar() {
 					<Grid container spacing={3}>
 						<Grid item xs={12} md={12} className="paginado-personaje">
 							<Stack spacing={2}>
-								<Pagination count={info.pages} page={page} onChange={changePage} size="large" color="primary" />
+								<Pagination count={info.pages} page={parseInt(page)} onChange={changePage} size="large" color="primary" />
 							</Stack>
 						</Grid>
 					</Grid>
@@ -261,6 +297,7 @@ export default function Buscar() {
 				>
 					<CircularProgress color="inherit" />
 				</Backdrop>
+				<Personaje open={modalPersonaje} onClosePersonaje={closeFichaPersonaje} personaje={personaje}></Personaje>
 			</Main>
 
 			<style jsx>{`

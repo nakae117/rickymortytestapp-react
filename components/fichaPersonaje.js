@@ -16,9 +16,13 @@ const useStyles = makeStyles({
 export default function FichaPersonaje(props) {
 	const classes = useStyles();
 
+	const selectPersonaje = function(personaje_id){
+		props.onSelectPersonaje(personaje_id)
+	}
+
 	return (
 		<>
-			<Card sx={{ display: 'flex' }}>
+			<Card sx={{ display: 'flex' }} onClick={() => selectPersonaje(props.personaje.id)}>
 				<CardMedia
 					component="img"
 					sx={{ width: 125 }}
