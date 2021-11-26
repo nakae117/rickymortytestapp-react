@@ -20,7 +20,7 @@ import {
 import { Search } from '@mui/icons-material'
 import Main from '../components/layouts/main'
 import FichaPersonaje from '../components/fichaPersonaje'
-import Personaje from '../components/Personaje'
+import Personaje from '../components/personaje'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
