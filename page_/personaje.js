@@ -12,7 +12,6 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { makeStyles } from '@mui/styles'
-import FichaPersonaje from '../components/fichaPersonaje'
 
 const useStyles = makeStyles({
 	coverFicha: {
@@ -23,8 +22,7 @@ const useStyles = makeStyles({
 	},
 	textHead: {
 		'font-size': '16px',
-		'font-weight': '600',
-		margin: '15px 0px'
+		'font-weight': '600'
 	},
 	avatarFicha: {
 		margin: '-91px 6px 10px 15px'
@@ -35,12 +33,6 @@ const useStyles = makeStyles({
 	},
 	loading: {
 		textAlign: 'center'
-	},
-	marignY15: {
-		margin: '15px 0px'
-	},
-	personajesContainer: {
-		margin: '25px 0'
 	}
 });
 
@@ -95,24 +87,6 @@ export default function Personaje(props) {
 		})
 	}
 
-	const openFichaPersonajeInteresante = function(personaje_id){
-		props.onSelectPersonaje(personaje_id)
-	}
-
-	const renderPersonajesInteresList = () => {
-		if(props.loadingEpisodios){
-			return <Grid item xs={12} md={12} className={styleClass.loading}> Cargando Perosoanejes de interés </Grid>
-		} else {
-			return props.personajesInteresantes.map((personaje) => {
-				return (
-					<Grid item xs={12} md={6} key={'interesante-personaje-' + personaje.id}>
-						<FichaPersonaje personaje={personaje} onSelectPersonaje={openFichaPersonajeInteresante}></FichaPersonaje>
-					</Grid>
-				)
-			})
-		}
-	}
-
 	return (
 		<>
 			<Dialog
@@ -121,7 +95,7 @@ export default function Personaje(props) {
 				scroll={'paper'}
 				aria-labelledby="alert-dialog-title"
 				aria-describedby="alert-dialog-description"
-				maxWidth="md"
+				maxWidth="sm"
 				fullWidth={true}
 			>
 				<CardMedia
@@ -146,7 +120,7 @@ export default function Personaje(props) {
 				</IconButton>
 
 				<DialogContent dividers>
-					<DialogContentText component="div" id="alert-dialog-description">
+					<DialogContentText id="alert-dialog-description">
 						<Container className={styleClass.infoHead}>
 							<Typography className={styleClass.textTitle} component="div" variant="subtitle1">
 								{props.personaje.status}
@@ -205,11 +179,7 @@ export default function Personaje(props) {
 							</Grid>
 						</Container>
 
-						<hr className={styleClass.marignY15}/>
-
-						<Typography className={styleClass.textHead} component="div" variant="subtitle1">
-							Episodios
-						</Typography>
+						<hr />
 
 						<Container>
 							<Grid container spacing={3}>
@@ -218,18 +188,6 @@ export default function Personaje(props) {
 										{episodios()}
 									</Grid>
 								</Grid>
-							</Grid>
-						</Container>
-						
-						<hr className={styleClass.marignY15} />
-
-						<Typography className={styleClass.textHead} component="div" variant="subtitle1">
-							Personajes interesantes
-						</Typography>
-
-						<Container className={styleClass.personajesContainer}>
-							<Grid container spacing={1}>
-								{renderPersonajesInteresList()}
 							</Grid>
 						</Container>
 					</DialogContentText>

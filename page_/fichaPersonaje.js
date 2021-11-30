@@ -31,7 +31,7 @@ export default function FichaPersonaje(props) {
 			<Card sx={{ display: 'flex' }} className={classes.fichaPersonaje} onClick={() => selectPersonaje(props.personaje.id)}>
 				<CardMedia
 					component="img"
-					sx={{ width: 125, height: 125 }}
+					sx={{ width: 125 }}
 					image={props.personaje.image}
 					alt="Live from space album cover"
 				/>

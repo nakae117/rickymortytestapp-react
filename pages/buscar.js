@@ -32,6 +32,10 @@ export default function Buscar() {
 	const [page, setPage] = useState(1);
 	const [loading, setLoading] = useState(true);
 	const [personajes, setPersonajes] = useState([]);
+	const [personajesInteresantes, setPersonajesInteresantes] = useState([]);
+	const [episodios, setEpisodios] = useState([]);
+	const [loadingEpisodios, setLoadingEpisodios] = useState(false);
+	const [loadingPersonajesInteresantes, setLoadingPersonajesInteresantes] = useState(false);
 	const [personaje, setPersonaje] = useState({});
 	const [info, setInfo] = useState({});
 	const [modalPersonaje, setDialogPersonaje] = useState(false);
@@ -112,8 +116,27 @@ export default function Buscar() {
 		})
 	}
 
+	const obtenerPersonajesInteresantes = function(){
+		setLoadingPersonajesInteresantes(true)
+		let personaje1 = Math.floor(Math.random() * 672),
+			personaje2 = Math.floor(Math.random() * 672),
+			personaje3 = Math.floor(Math.random() * 672);
+
+		return new Promise((resolve, reject) => {
+			axios.get('https://rickandmortyapi.com/api/character/' + personaje1 + ',' + personaje2 + ',' + personaje3)
+				.then((response) => {
+					setPersonajesInteresantes(response.data)
+					setLoadingPersonajesInteresantes(false)
+				}).catch(() => {
+					setpersonajesInteresantes([])
+					setLoadingPersonajesInteresantes(false)
+				})
+		})
+	}
+
 	const openFichaPersonaje = function(personaje_id){
 		setLoading(true)
+		setDialogPersonaje(false)
 
 		return new Promise((resolve, reject) => {
 			axios.get('https://rickandmortyapi.com/api/character/' + personaje_id)
@@ -121,6 +144,8 @@ export default function Buscar() {
 					setPersonaje(response.data)
 					setLoading(false)
 					setDialogPersonaje(true)
+					obtenerEpisodios(response.data)
+					obtenerPersonajesInteresantes()
 				}).catch((error) => {
 					setPersonaje({})
 					setLoading(false)
@@ -128,8 +153,39 @@ export default function Buscar() {
 		})
 	}
 
+	const obtenerEpisodios = function(personajeShow){
+		setLoadingEpisodios(true)
+
+		let consulta = episodiosKeys(personajeShow);
+
+		return new Promise((resolve, reject) => {
+			axios.get('https://rickandmortyapi.com/api/episode/' + consulta)
+				.then((response) => {
+					setEpisodios(response.data)
+					setLoadingEpisodios(false)
+				}).catch((error) => {
+					setEpisodios([])
+					setLoadingEpisodios(false)
+				})
+		})
+	}
+
 	const closeFichaPersonaje = function(){
 		setDialogPersonaje(false)
+	}
+
+	const episodiosKeys = function(personajeFicha){
+		let episodiosKeys = [];
+
+		if(personajeFicha){
+			personajeFicha.episode.forEach(function(element, key){
+				let ids = element.split('/');
+				episodiosKeys.push(ids[5])
+			})
+
+		}
+
+		return episodiosKeys.join(',')
 	}
 
 	const renderPersonajesList = () => {
@@ -297,7 +353,16 @@ export default function Buscar() {
 				>
 					<CircularProgress color="inherit" />
 				</Backdrop>
-				<Personaje open={modalPersonaje} onClosePersonaje={closeFichaPersonaje} personaje={personaje}></Personaje>
+				<Personaje
+					open={modalPersonaje}
+					onClosePersonaje={closeFichaPersonaje}
+					personaje={personaje}
+					loadingEpisodios={loadingEpisodios}
+					episodios={episodios}
+					loadingPersonajesInteresantes={loadingPersonajesInteresantes}
+					personajesInteresantes={personajesInteresantes}
+					onSelectPersonaje={openFichaPersonaje}
+				/>
 			</Main>
 
 			<style jsx>{`
