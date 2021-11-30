@@ -101,7 +101,7 @@ export default function Personaje(props) {
 
 	const renderPersonajesInteresList = () => {
 		if(props.loadingEpisodios){
-			return <Grid item xs={12} md={12} className={styleClass.loading}> Cargando Perosoanejes de interés </Grid>
+			return <Grid item xs={12} md={12} className={styleClass.loading}> Cargando Personajes de interés </Grid>
 		} else {
 			return props.personajesInteresantes.map((personaje) => {
 				return (
@@ -224,7 +224,7 @@ export default function Personaje(props) {
 						<hr className={styleClass.marignY15} />
 
 						<Typography className={styleClass.textHead} component="div" variant="subtitle1">
-							Personajes interesantes
+							Personajes de interés
 						</Typography>
 
 						<Container className={styleClass.personajesContainer}>
