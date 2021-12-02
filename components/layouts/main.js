@@ -1,4 +1,3 @@
-import { Container } from '@mui/material';
 import Head from 'next/head'
 
 export default function Main({ children }) {
@@ -10,9 +9,7 @@ export default function Main({ children }) {
 					<link rel="icon" href="/favicon.ico" />
 				</Head>
 				
-				{/* <Container> */}
-					{children}
-				{/* </Container> */}
+				{children}
 			</main>
 		</>
 	)

@@ -34,10 +34,10 @@ const useStyles = makeStyles({
 		backgroundPosition: 'center',
 		height: '400px'
 	},
-	logoContainer: {
+	imageContainer: {
 		textAlign: 'center'
 	},
-	logo: {
+	imageBanner: {
 		height: '180px',
 		[theme.breakpoints.down('sm')]: {
 			height: '120px !important',
@@ -71,7 +71,6 @@ export default function Buscar() {
 	const [personaje, setPersonaje] = useState({});
 	const [info, setInfo] = useState({});
 	const [modalPersonaje, setDialogPersonaje] = useState(false);
-	let time;
 
 	const changeSearch = function(event){
 		setSearch(event.target.value)
@@ -273,11 +272,11 @@ export default function Buscar() {
 			<Main>
 				<Grid className={styleClass.bannerBuscar} container spacing={0} alignItems="center" justifyContent="column" justify="center">
 					<Grid item xs={12} md={12}>
-						<div className={styleClass.logoContainer}>
+						<div className={styleClass.imageContainer}>
 							<img
 								src="/logo.png"
 								alt="Rick & Morty"
-								className={styleClass.logo}
+								className={styleClass.imageBanner}
 							></img>
 						</div>
 

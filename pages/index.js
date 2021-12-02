@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 		height: '100vh',
 		textAlign: 'center'
 	},
-	logo: {
+	imageBanner: {
 		height: '300px',
 		[theme.breakpoints.down('sm')]: {
 			height: '120px !important',
@@ -40,20 +40,18 @@ export default function Home() {
 
 			<Grid container spacing={0} alignItems="center" justifyContent="column" justify="center" className={styleClass.banner}>
 				<Grid item xs={12} md={12}>
-					<img
-						src="/logo.png"
-						alt="Rick y Morty"
-						className={styleClass.logo}
-					/><br/>
+					<div>
+						<img
+							src="/logo.png"
+							alt="Rick y Morty"
+							className={styleClass.imageBanner}
+						></img>
+					</div>
 					
 					<h1>Bienvenido a Rick y Morty</h1>
 
 					<Link href="/buscar">
 						<Button color="secondary" variant="contained">Continuar</Button>
-					</Link>
-
-					<Link href="/redux-prueba">
-						<Button color="secondary" variant="contained">Redux prueba</Button>
 					</Link>
 				</Grid>
 			</Grid>
