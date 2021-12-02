@@ -31,6 +31,8 @@ const theme = createTheme();
 const useStyles = makeStyles({
 	bannerBuscar: {
 		backgroundImage: 'url("/bg.png")',
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
 		backgroundPosition: 'center',
 		height: '400px'
 	},
