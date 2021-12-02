@@ -23,8 +23,40 @@ import FichaPersonaje from '../components/fichaPersonaje'
 import Personaje from '../components/personaje'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { makeStyles } from '@mui/styles'
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme();
+
+const useStyles = makeStyles({
+	bannerBuscar: {
+		backgroundImage: 'url("/bg.png")',
+		backgroundPosition: 'center',
+		height: '400px'
+	},
+	logoContainer: {
+		textAlign: 'center'
+	},
+	logo: {
+		height: '180px',
+		[theme.breakpoints.down('sm')]: {
+			height: '120px !important',
+		},
+		[theme.breakpoints.down('md')]: {
+			height: '150px',
+		},
+	},
+	personajesContainer: {
+		margin: '25px auto'
+	},
+	paginadoPersonaje: {
+		textAlign: 'center',
+		padding: '16px 0'
+	}
+});
 
 export default function Buscar() {
+	const styleClass = useStyles();
 	const router = useRouter();
 	const [search, setSearch] = useState('');
 	const [status, setStatus] = useState('');
@@ -239,18 +271,18 @@ export default function Buscar() {
 	return (
 		<div className="main-root">
 			<Main>
-				<Grid container spacing={0}>
-					<Grid className="banner-buscar" item xs={12} md={12}>
-						<div className="logo">
+				<Grid className={styleClass.bannerBuscar} container spacing={0} alignItems="center" justifyContent="column" justify="center">
+					<Grid item xs={12} md={12}>
+						<div className={styleClass.logoContainer}>
 							<img
 								src="/logo.png"
 								alt="Rick & Morty"
-								height="180px"
+								className={styleClass.logo}
 							></img>
 						</div>
 
 						<Grid container spacing={0} justifyContent="center">
-							<Grid item xs={5} md={5}>
+							<Grid item xs={11} md={5}>
 								<Paper>
 									<TextField
 										label="Buscar personaje"
@@ -272,7 +304,7 @@ export default function Buscar() {
 						<br/><br/>
 
 						<Grid container spacing={3} justifyContent="center">
-							<Grid item xs={3} md={3}>
+							<Grid item xs={5} md={3}>
 								<FormControl fullWidth>
 									<Paper>
 										<InputLabel id="status-label">Status</InputLabel>
@@ -293,7 +325,7 @@ export default function Buscar() {
 								</FormControl>
 							</Grid>
 
-							<Grid item xs={3} md={3}>
+							<Grid item xs={5} md={3}>
 								<FormControl fullWidth>
 									<Paper>
 										<InputLabel id="gender-label">Gender</InputLabel>
@@ -328,7 +360,7 @@ export default function Buscar() {
 					</AppBar>
 				</Box>
 
-				<Container className="personajes-container">
+				<Container className={styleClass.personajesContainer}>
 					<Grid container spacing={3}>
 						<Grid item xs={12} md={12}>
 							<Grid container spacing={3}>
@@ -340,7 +372,7 @@ export default function Buscar() {
 
 				<Container>
 					<Grid container spacing={3}>
-						<Grid item xs={12} md={12} className="paginado-personaje">
+						<Grid item xs={12} md={12} className={styleClass.paginadoPersonaje}>
 							<Stack spacing={2}>
 								<Pagination count={info.pages} page={parseInt(page)} onChange={changePage} size="large" color="primary" />
 							</Stack>
@@ -364,32 +396,6 @@ export default function Buscar() {
 					onSelectPersonaje={openFichaPersonaje}
 				/>
 			</Main>
-
-			<style jsx>{`
-				.main-root :global(.banner-buscar) {
-					background-image: url('/bg.png');
-					background-position: center;
-					height: 400px;
-				}
-
-				.main-root :global(.logo) {
-					text-align: center;
-				}
-
-				.main-root :global(.personajes-container) {
-					margin-top: 25px;
-					margin-bottom: 25px;
-				}
-
-				.main-root :global(.paginado-personaje) {
-					text-align: center;
-					padding: 16px 0;
-				}
-
-				h1 {
-					color: #fff;
-				}
-			`}</style>
 
 			<style jsx global>{`
 				body{

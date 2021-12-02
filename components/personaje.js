@@ -51,7 +51,7 @@ export default function Personaje(props) {
 	};
 
 	const episodios = function () {
-		if (props.loadingEpisodios) {
+		if(props.loadingEpisodios){
 			return <Grid item xs={12} md={12} className={styleClass.loading}> Cargando episodios </Grid>
 		}
 		else {

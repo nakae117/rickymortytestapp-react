@@ -3,8 +3,34 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Grid, Button } from '@mui/material'
 import Main from '../components/layouts/main'
+import { makeStyles } from '@mui/styles'
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme();
+
+const useStyles = makeStyles({
+	banner: {
+		background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/bg.png")',
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backdropFilter: 'brightness(50%)',
+		height: '100vh',
+		textAlign: 'center'
+	},
+	logo: {
+		height: '300px',
+		[theme.breakpoints.down('sm')]: {
+			height: '120px !important',
+		},
+		[theme.breakpoints.down('md')]: {
+			height: '200px',
+		},
+	}
+});
 
 export default function Home() {
+	const styleClass = useStyles();
+
 	return (
 		<Main>
 			<Head>
@@ -12,13 +38,13 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<Grid container spacing={0}>
-				<Grid className="banner" item xs={12} md={12}>
+			<Grid container spacing={0} alignItems="center" justifyContent="column" justify="center" className={styleClass.banner}>
+				<Grid item xs={12} md={12}>
 					<img
 						src="/logo.png"
 						alt="Rick y Morty"
-						height="300px"
-					></img><br/>
+						className={styleClass.logo}
+					/><br/>
 					
 					<h1>Bienvenido a Rick y Morty</h1>
 
@@ -33,12 +59,6 @@ export default function Home() {
 			</Grid>
 
 			<style jsx global>{`
-				.banner {
-					background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('/bg.png');
-					backdrop-filter: brightness(50%);
-					height: 100vh;
-					text-align: center;
-				}
 				body {
 					margin: 0px;
 				}
