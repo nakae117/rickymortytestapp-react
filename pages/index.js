@@ -33,22 +33,13 @@ export default function Home() {
 						></img>
 					</Box>
 					
-					<h1>Bienvenido a Rick y Morty</h1>
+					<h1 className="maint-title">Bienvenido a Rick y Morty</h1>
 
 					<Link href="/buscar">
 						<Button color="secondary" variant="contained">Continuar</Button>
 					</Link>
 				</Grid>
 			</Grid>
-
-			<style jsx global>{`
-				body {
-					margin: 0px;
-				}
-				h1 {
-					color: #fff;
-				}
-			`}</style>
 		</Main>
 	)
 }

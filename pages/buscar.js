@@ -23,39 +23,7 @@ import FichaPersonaje from '../components/fichaPersonaje'
 import Personaje from '../components/personaje'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { makeStyles } from '@mui/styles'
-import { createTheme } from '@mui/material/styles';
-
-const theme = createTheme();
-
-const useStyles = makeStyles({
-	bannerBuscar: {
-		backgroundImage: 'url("/bg.png")',
-		backgroundRepeat: 'no-repeat',
-		backgroundSize: 'cover',
-		backgroundPosition: 'center',
-		height: '400px'
-	},
-	imageContainer: {
-		textAlign: 'center'
-	},
-	imageBanner: {
-		height: '180px',
-		[theme.breakpoints.down('sm')]: {
-			height: '120px !important',
-		},
-		[theme.breakpoints.down('md')]: {
-			height: '150px',
-		},
-	},
-	personajesContainer: {
-		margin: '25px auto'
-	},
-	paginadoPersonaje: {
-		textAlign: 'center',
-		padding: '16px 0'
-	}
-});
+import useStyles from '../css/buscar.css'
 
 export default function Buscar() {
 	const styleClass = useStyles();
@@ -74,23 +42,17 @@ export default function Buscar() {
 	const [info, setInfo] = useState({});
 	const [modalPersonaje, setDialogPersonaje] = useState(false);
 
-	const changeSearch = function(event){
-		setSearch(event.target.value)
-	}
+	const changeSearch = (event) => setSearch(event.target.value)
 
-	const changeStatus = function(event){
-		setStatus(event.target.value)
-	}
+	const changeStatus = (event) => setStatus(event.target.value)
 
-	const changeGender = function(event){
-		setGender(event.target.value)
-	}
+	const changeGender = (event) => setGender(event.target.value)
 
 	const buttonSearch = function(){
 		changeQuery()
 
 		if(page == 1){
-			if (!loading) buscar();
+			if(!loading) buscar();
 		} else {
 			setPage(1)
 		}
@@ -121,9 +83,7 @@ export default function Buscar() {
 		})
 	}
 
-	const changePage = (event, value) => {
-		setPage(value);
-	};
+	const changePage = (event, value) => setPage(value);
 
 	const buscar = function(){
 		setLoading(true)
@@ -203,9 +163,7 @@ export default function Buscar() {
 		})
 	}
 
-	const closeFichaPersonaje = function(){
-		setDialogPersonaje(false)
-	}
+	const closeFichaPersonaje = () => setDialogPersonaje(false)
 
 	const episodiosKeys = function(personajeFicha){
 		let episodiosKeys = [];
@@ -234,21 +192,13 @@ export default function Buscar() {
 	useEffect(() => {
 		if(!router.isReady) return;
 
-		if(router.query.page){
-			setPage(router.query.page)
-		}
+		router.query.page ? setPage(router.query.page) : null
 
-		if(router.query.search){
-			setSearch(router.query.search)
-		}
+		router.query.search ? setSearch(router.query.search) : null
 
-		if(router.query.status){
-			setStatus(router.query.status)
-		}
+		router.query.status ? setStatus(router.query.status) : null
 
-		if(router.query.gender){
-			setGender(router.query.gender)
-		}
+		router.query.gender ? setGender(router.query.gender) : null
 	}, [router.isReady]);
 
 	useEffect(() => {
@@ -397,12 +347,6 @@ export default function Buscar() {
 					onSelectPersonaje={openFichaPersonaje}
 				/>
 			</Main>
-
-			<style jsx global>{`
-				body{
-					margin: 0px;
-				}
-			`}</style>
 		</div>
 	)
 }
