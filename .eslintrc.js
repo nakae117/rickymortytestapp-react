@@ -18,6 +18,7 @@ module.exports = {
     },
     'plugins': ['react'],
     'rules': {
-        "indent": ["error", 4],
+        'indent': ['error', 4],
+        '@next/next/no-img-element': 'off'
     }
 };
